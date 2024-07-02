@@ -1,0 +1,24 @@
+{
+  "name": "powematchingalgo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node start-server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michexylee/powematchingalgo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/michexylee/powematchingalgo/issues"
+  },
+  "homepage": "https://github.com/michexylee/powematchingalgo#readme",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
