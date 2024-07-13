@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Match Algo</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            width: 100%;
+            padding: 30px;
+            text-align: left;
+            font-size: 24px;
+        }
+        .main {
+            flex: 1;
+            display: flex;
+            padding: 20px;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .column {
+            width: 45%;
+            margin: 0 2.5%;
+        }
+        .upload-container, .file-list {
+            width: 100%;
+            padding: 50px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        p {
+            font-size: 15px;
+        }
+        .upload-container input[type="file"] {
+            margin-bottom: 10px;
+        }
+        .upload-container button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .upload-container button:hover {
+            background-color: #0056b3;
+        }
+        .upload-container #uploadStatus {
+            margin-top: 10px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        POWE Shadow Days Matching Algorithm
+    </div>
+
+    <div class="main">
+        <div class="column">
+            <p>To use the matching algorithm, you need 2 spreadsheets obtained from the form you sent to the mentors and mentees with some specific questions that will be detailed below</p>
+            <p>&nbsp;&nbsp;&nbsp;1. Upload the spreadsheets in the drop box on the right</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Make sure that your spreadsheets are named with "Mentor" and "Mentee"</p>
+            <p>&nbsp;&nbsp;&nbsp;2. Click on the "Upload" button</p>
+            <p>&nbsp;&nbsp;&nbsp;3. Wait for the algorithm to do its thing</p>
+            <p>&nbsp;&nbsp;&nbsp;4. The matches will be downloaded to your pc</p>
+            <br>
+            <p>Some specifications:</p>
+            <p>&nbsp;&nbsp;&nbsp;The algorithm looks for specific keywords in the spreadsheet to perform matches.</p>
+            <p>&nbsp;&nbsp;&nbsp;Below is a list of the field specifications you need to ask in the form:</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You need to get the mentor and mentee's name using "Name (First, Last)"</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To find their field of interest you have to ask what "Major" they are looking for</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You also have the use "Language" to find which one they are most comfortable with</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;And don't forget to get their email addresses!</p>
+        </div>
+
+        <div class="column">
+            <div class="upload-container">
+                <h2>Upload Mentor and Mentee Spreadsheets</h2>
+                <input type="file" id="fileInput" multiple>
+                <button onclick="uploadFiles()">Upload</button>
+                <div id="uploadStatus"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function uploadFiles() {
+            const files = document.getElementById('fileInput').files;
+            const formData = new FormData();
+
+            for (let i = 0; i < files.length; i++) {
+                formData.append('file', files[i]);
+            }
+
+            fetch('http://localhost:5000/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('uploadStatus').innerText = data.message;
+            })
+            .catch(error => {
+                document.getElementById('uploadStatus').innerText = 'Error uploading files';
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
