@@ -9,14 +9,17 @@ CORS(app, origins=["http://localhost:3000"])  # Limit CORS to the front-end orig
 
 UPLOAD_FOLDER = './uploads'
 GENERATED_FOLDER = './generated_files'
+
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 if not os.path.exists(GENERATED_FOLDER):
     os.makedirs(GENERATED_FOLDER)
 
+
 @app.route('/')
 def serve_index():
     return send_from_directory('.', 'index.html')
+
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -57,7 +60,9 @@ def upload_file():
 
     # Process and match files
     matches_file = match_mentors_and_mentees(mentor_files, mentee_files)
-    return send_file( os.path.join(GENERATED_FOLDER, "matches.xlsx"), as_attachment=True)
+    return send_from_directory(directory='.', path=matches_file, as_attachment=True)
+    #return send_file( os.path.join(GENERATED_FOLDER, "matches.xlsx"), as_attachment=True)
+
 
 @app.route('/download', methods=['GET'])
 def download():
@@ -66,6 +71,8 @@ def download():
     print("downloading to user")
     return send_file(csv_filepath, as_attachment=True)
     #return send_from_directory(directory='.', path=matches_file, as_attachment=True)
+
+############################### MATCHING METHOD ####################################
 
 def match_mentors_and_mentees(mentor_files, mentee_files):
     mentor_replacement_mapping = {
@@ -127,7 +134,6 @@ def match_mentors_and_mentees(mentor_files, mentee_files):
             #print(best_mentor + " + " + mentee["mentee_name"])
         else:
             unmatched_mentees.append(mentee["mentee_name"])
-            print("unmtached")
 
     result_list = []
     for mentor, mentees in mentor_mentee_mapping.items():
