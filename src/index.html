@@ -93,37 +93,31 @@
 
     <script>
         function uploadFiles() {
-    const mentorFile = document.getElementById('mentorFile').files[0];
-    const menteeFile = document.getElementById('menteeFile').files[0];
-    
-    const formData = new FormData();
-    formData.append('mentor_file', mentorFile);
-    formData.append('mentee_file', menteeFile);
+            const files = document.getElementById('fileInput').files;
+            const formData = new FormData();
 
-    fetch('http://localhost:3000/upload', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.blob();  // Get the response as a Blob
-        }
-        throw new Error('Network response was not ok.');
-    })
-    .then(blob => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'matches.xlsx'; // The filename for the downloaded file
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        window.URL.revokeObjectURL(url); // Clean up
-    })
-    .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-    });
-}
+            for (let i = 0; i < files.length; i++) {
+                formData.append('file', files[i]);
+            }
+        
+            fetch('http://localhost:5000/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Upload failed');
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('uploadStatus').innerText = data.message;
+            })
+            .catch(error => {
+                document.getElementById('uploadStatus').innerText = 'Error uploading files';
+                console.error('Error:', error);
+            });
+        }  
     </script>
 </body>
 </html>
