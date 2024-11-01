@@ -84,7 +84,7 @@
         <div class="column">
             <div class="upload-container">
                 <h2>Upload Mentor and Mentee Spreadsheets</h2>
-                <input type="file" id="fileInput" multiple>
+                <input type="file" id="fileInput" name="file" multiple>
                 <button onclick="uploadFiles()">Upload</button>
                 <div id="uploadStatus"></div>
             </div>
@@ -93,26 +93,37 @@
 
     <script>
         function uploadFiles() {
-            const files = document.getElementById('fileInput').files;
-            const formData = new FormData();
+    const mentorFile = document.getElementById('mentorFile').files[0];
+    const menteeFile = document.getElementById('menteeFile').files[0];
+    
+    const formData = new FormData();
+    formData.append('mentor_file', mentorFile);
+    formData.append('mentee_file', menteeFile);
 
-            for (let i = 0; i < files.length; i++) {
-                formData.append('file', files[i]);
-            }
-
-            fetch('http://localhost:5000/upload', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('uploadStatus').innerText = data.message;
-            })
-            .catch(error => {
-                document.getElementById('uploadStatus').innerText = 'Error uploading files';
-                console.error('Error:', error);
-            });
+    fetch('http://localhost:3000/upload', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.blob();  // Get the response as a Blob
         }
+        throw new Error('Network response was not ok.');
+    })
+    .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'matches.xlsx'; // The filename for the downloaded file
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url); // Clean up
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+}
     </script>
 </body>
 </html>
