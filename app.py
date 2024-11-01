@@ -16,7 +16,7 @@ if not os.path.exists(GENERATED_FOLDER):
 
 @app.route('/')
 def serve_index():
-    return send_from_directory(app.static_folder, 'index.html')
+    return send_from_directory('.', 'index.html')
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -124,9 +124,10 @@ def match_mentors_and_mentees(mentor_files, mentee_files):
 
         if best_mentor is not None:
             mentor_mentee_mapping[best_mentor].append(mentee["mentee_name"])
-            print(best_mentor + " + " + mentee["mentee_name"])
+            #print(best_mentor + " + " + mentee["mentee_name"])
         else:
             unmatched_mentees.append(mentee["mentee_name"])
+            print("unmtached")
 
     result_list = []
     for mentor, mentees in mentor_mentee_mapping.items():

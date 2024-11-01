@@ -92,32 +92,67 @@
     </div>
 
     <script>
-        function uploadFiles() {
-            const files = document.getElementById('fileInput').files;
-            const formData = new FormData();
+        // function uploadFiles() {
+        //     const files = document.getElementById('fileInput').files;
+        //     const formData = new FormData();
 
-            for (let i = 0; i < files.length; i++) {
-                formData.append('file', files[i]);
-            }
+        //     for (let i = 0; i < files.length; i++) {
+        //         formData.append('file', files[i]);
+        //     }
         
-            fetch('http://localhost:5000/upload', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Upload failed');
-                }
-                return response.json();
-            })
-            .then(data => {
-                document.getElementById('uploadStatus').innerText = data.message;
-            })
-            .catch(error => {
-                document.getElementById('uploadStatus').innerText = 'Error uploading files';
-                console.error('Error:', error);
+        //     fetch('http://localhost:5000/upload', {
+        //         method: 'POST',
+        //         body: formData
+        //     })
+        //     .then(response => {
+        //         if (!response.ok) {
+        //             throw new Error('Upload failed');
+        //         }
+        //         return response.json();
+        //     })
+        //     .then(data => {
+        //         document.getElementById('uploadStatus').innerText = data.message;
+        //     })
+        //     .catch(error => {
+        //         document.getElementById('uploadStatus').innerText = 'Error uploading files';
+        //         console.error('Error:', error);
+        //     });
+        // }  
+
+
+        function uploadFiles() {
+    const files = document.getElementById('fileInput').files;
+    const formData = new FormData();
+
+    for (let i = 0; i < files.length; i++) {
+        formData.append('file', files[i]);
+    }
+
+    fetch('http://localhost:5000/upload', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            // Attempt to parse JSON error response from the server
+            return response.json().then(errorInfo => {
+                throw new Error(errorInfo.message || 'Upload failed');
+            }).catch(() => {
+                throw new Error(`Upload failed with status: ${response.status} ${response.statusText}`);
             });
-        }  
+        }
+        return response.json();
+    })
+    .then(data => {
+        document.getElementById('uploadStatus').innerText = data.message;
+    })
+    .catch(error => {
+        // Display the error message in the HTML element
+        document.getElementById('uploadStatus').innerText = `Error: ${error.message}`;
+        console.error('Detailed Error:', error);  // Log full error in console for debugging
+    });
+}
+
     </script>
 </body>
 </html>
