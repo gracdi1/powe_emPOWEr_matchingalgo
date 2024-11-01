@@ -3,13 +3,43 @@
 # IMPORTANT the webpage does not work perfectly so instead do this:
 
     Pull this repo into your own machine
+    * if you haven't done it before, there's a little green dropdown in the right side corner written "Code" and you can select Download Zip
     Open the file named "ogcode.py"
     Upload your two mentor and mentee spreadsheets to the repo, at the same level as ogcode.py
+    * see example below
     Run ogcode.py
     
   It should not take long to process unless there are errors, but in the perfect ending, you should see a spreasheet called "mentor-mentee matching" generated right into the repo
 
   I recommend using Pycharm or VSCode for your IDE, but anything you are familiar with should work too!
+
+  Example of structure
+
+  powematchingalgo/
+  
+├── node_modules/
+
+│   └── ...
+
+├── static/
+
+│   ├── powemcgill_logo.jpg
+
+├── utils/
+
+│   └── ...
+
+├── README.md
+
+├── app.py
+
+├── index.html
+
+├── ogcode.py                → this is the file you need to run
+
+└── [insert your spreadsheets here]
+
+├── ...
 
 Webpage: https://michexylee.github.io/powematchingalgo/
 
