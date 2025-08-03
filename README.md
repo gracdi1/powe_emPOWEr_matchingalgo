@@ -49,10 +49,10 @@ Instructions on how to structure the spreadsheets are details on the webpage and
 
    Below is a list of the field specifications you need to ask in the form:
 
-      You need to get the mentor and mentee's name using "Name (First, Last)"
+      You need to get the mentor and mentee's name using "Name (First Last)"
 
-      To find their field of interest you have to ask what "Major" they are looking for
+      To find their field of interest you have to ask what "Engineering Department" they are
 
-      You also have to use "Language" to find which one they are most comfortable with
+      You also have the use "Are you a CEGEP, Out-of-Province, or International Admission student?" to find their admission background
 
       And don't forget to get their email addresses!

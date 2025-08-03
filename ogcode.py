@@ -30,7 +30,9 @@ for column_name in mentees_df.columns:
         if word_to_find in column_name:
             mentees_df.rename(columns={column_name: column_name.replace(column_name, new_word)}, inplace=True)
 
-mentees_df['interest'] = mentees_df['interest'].str.split(', ')
+mentees_df['interest'] = mentees_df['interest'].astype(str).apply(lambda x: [x.strip()])
+mentees_df['admission_type'] = mentees_df['admission_type'].str.strip().str.lower()
+mentors_df['admission_type'] = mentors_df['admission_type'].str.strip().str.lower()
 
 # Initialize mentor-mentee mapping
 mentor_mentee_mapping = defaultdict(list)
